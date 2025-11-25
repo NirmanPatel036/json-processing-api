@@ -29,7 +29,7 @@ A lightweight, dependency-minimal Node.js API for processing JSON datasets. This
 
 3. **Start the server**
    ```bash
-   npm test
+   npm start
    # OR
    node server.js
    ```
