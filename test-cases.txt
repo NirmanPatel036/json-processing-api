@@ -1,0 +1,156 @@
+===================================================================
+PROJECT 24: JSON DATA PROCESSING API - POSTMAN TEST CASES
+===================================================================
+Base URL: http://localhost:3000/api/process (or Render URL)
+Method: POST
+Headers: Content-Type: application/json
+===================================================================
+
+-------------------------------------------------------------------
+TEST CASE 1: Filter Data (Success)
+-------------------------------------------------------------------
+Description: Filter a dataset to find items with category "electronics".
+Expected Status: 200 OK
+Body:
+{
+  "operation": "filter",
+  "dataset": [
+    {"id": 1, "name": "Laptop", "category": "electronics", "price": 1000},
+    {"id": 2, "name": "Banana", "category": "food", "price": 2},
+    {"id": 3, "name": "Mouse", "category": "electronics", "price": 50}
+  ],
+  "criteria": {
+    "category": "electronics"
+  }
+}
+
+-------------------------------------------------------------------
+TEST CASE 2: Sort Data by Number (Success)
+-------------------------------------------------------------------
+Description: Sort a dataset by "price" in ascending order.
+Expected Status: 200 OK
+Body:
+{
+  "operation": "sort",
+  "dataset": [
+    {"item": "A", "price": 100},
+    {"item": "B", "price": 20},
+    {"item": "C", "price": 50}
+  ],
+  "sortBy": "price"
+}
+
+-------------------------------------------------------------------
+TEST CASE 3: Sort Data by String (Success)
+-------------------------------------------------------------------
+Description: Sort a dataset by "name" alphabetically.
+Expected Status: 200 OK
+Body:
+{
+  "operation": "sort",
+  "dataset": [
+    {"id": 1, "name": "Zebra"},
+    {"id": 2, "name": "Apple"},
+    {"id": 3, "name": "Mango"}
+  ],
+  "sortBy": "name"
+}
+
+-------------------------------------------------------------------
+TEST CASE 4: Aggregate - Sum (Success)
+-------------------------------------------------------------------
+Description: Calculate the total sum of the "amount" field.
+Expected Status: 200 OK
+Body:
+{
+  "operation": "aggregate",
+  "aggType": "sum",
+  "targetField": "amount",
+  "dataset": [
+    {"id": 1, "amount": 10.50},
+    {"id": 2, "amount": 20.00},
+    {"id": 3, "amount": 5.50}
+  ]
+}
+
+-------------------------------------------------------------------
+TEST CASE 5: Aggregate - Average (Success)
+-------------------------------------------------------------------
+Description: Calculate the average score of students.
+Expected Status: 200 OK
+Body:
+{
+  "operation": "aggregate",
+  "aggType": "average",
+  "targetField": "score",
+  "dataset": [
+    {"student": "A", "score": 80},
+    {"student": "B", "score": 90},
+    {"student": "C", "score": 100}
+  ]
+}
+
+-------------------------------------------------------------------
+TEST CASE 6: Aggregate - Count (Success)
+-------------------------------------------------------------------
+Description: Count the total number of items in the dataset.
+Expected Status: 200 OK
+Body:
+{
+  "operation": "aggregate",
+  "aggType": "count",
+  "dataset": [
+    {"id": 1}, {"id": 2}, {"id": 3}, {"id": 4}
+  ]
+}
+
+-------------------------------------------------------------------
+TEST CASE 7: Filter - No Matches (Success - Edge Case)
+-------------------------------------------------------------------
+Description: Filter with criteria that matches nothing. Should return empty array.
+Expected Status: 200 OK
+Body:
+{
+  "operation": "filter",
+  "dataset": [
+    {"id": 1, "status": "active"},
+    {"id": 2, "status": "active"}
+  ],
+  "criteria": {
+    "status": "archived"
+  }
+}
+
+-------------------------------------------------------------------
+TEST CASE 8: Error - Invalid Operation (Logic Error)
+-------------------------------------------------------------------
+Description: Send an operation name that is not defined in the code.
+Expected Status: 400 Bad Request
+Body:
+{
+  "operation": "delete_database", 
+  "dataset": [{"id": 1}]
+}
+
+-------------------------------------------------------------------
+TEST CASE 9: Error - Missing Required Field (Validation Error)
+-------------------------------------------------------------------
+Description: Omit the "dataset" field, which is required by JSON Schema.
+Expected Status: 400 Bad Request
+Body:
+{
+  "operation": "filter",
+  "criteria": {"id": 1}
+}
+
+-------------------------------------------------------------------
+TEST CASE 10: Error - Wrong Data Type (Validation Error)
+-------------------------------------------------------------------
+Description: Send "dataset" as a string instead of an array.
+Expected Status: 400 Bad Request
+Body:
+{
+  "operation": "sort",
+  "dataset": "This should be an array, not a string",
+  "sortBy": "id"
+}
