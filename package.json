@@ -1,0 +1,16 @@
+{
+  "name": "json-api",
+  "version": "1.0.0",
+  "description": "JSON Data Processing API",
+  "main": "index.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "ajv": "^8.17.1"
+  }
+}
